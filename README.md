@@ -1,24 +1,24 @@
 # Pdfcrowd HTML to PDF API client
 
 The Pdfcrowd API lets you easily create PDF from web pages or raw HTML
-code in your Python 3 applications.
+code in your Python3 applications.
 
-To use the API, you need Python3 and an account on
-[http://pdfcrowd.com](https://pdfcrowd.com), if you don't have one you
-can sign up [here](https://pdfcrowd.com/pricing/api/). This will give
-you a username and an API key.
+To use the API, you need and an account on
+[http://pdfcrowd.com](https://pdfcrowd.com), if you don't have one you can sign
+up [here](https://pdfcrowd.com/pricing/api/). This will give you a username and
+an API key.
 
 ## Installation
 
 The package can be retrieved from
 [pypi](http://pypi.python.org/pypi/pdfcrowd/). You can install it with pip/easy_install:
 
-    pip install pdfcrowd
+    pip install pdfcrowd3
     
 Or you can download/clone the client and run
 
-    git clone git@github.com:pdfcrowd/pdfcrowd-python.git    
-    cd pdfcrowd-python/
+    git clone git@github.com:pdfcrowd/pdfcrowd-python3.git
+    cd pdfcrowd-python3/
     python setup.py install
 
 ## Example
