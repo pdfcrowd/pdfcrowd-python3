@@ -30,7 +30,7 @@ import mimetypes
 import socket
 import base64
 
-__version__ = "2.7"
+__version__ = "2.6"
 
 
 # constants for Client.setPageLayout()
@@ -90,7 +90,6 @@ class Client:
         """
         body = urllib.parse.urlencode(self._prepare_fields(dict(src=uri)))
         content_type = 'application/x-www-form-urlencoded'
-
         return self._post(body, content_type, 'pdf/convert/uri/', outstream)
 
     def convertHtml(self, html, outstream=None):
@@ -105,7 +104,6 @@ class Client:
             html = html.encode('utf-8')
         body = urllib.parse.urlencode(self._prepare_fields(dict(src=html)))
         content_type = 'application/x-www-form-urlencoded'
-
         return self._post(body, content_type, 'pdf/convert/html/', outstream)
 
     def convertFile(self, fpath, outstream=None):
@@ -117,7 +115,6 @@ class Client:
                       containing the PDF.
         """
         body, content_type = self._encode_multipart_post_data(fpath)
-
         return self._post(body, content_type, 'pdf/convert/html/', outstream)
 
     def numTokens(self):
@@ -276,7 +273,6 @@ class Client:
 
     def _prepare_fields(self, extra_data={}):
         result = extra_data.copy()
-
         for key, val in iter(self.fields.items()):
             if val:
                 if type(val) == float:
@@ -320,7 +316,6 @@ class Client:
 
                 conn = self.conn_type(self.proxy_host, self.proxy_port)
                 conn.putrequest('POST', "http://%s:%d%s" % (self.host, self.port, API_SELECTOR_BASE + api_path))
-
                 if self.proxy_username:
                     user_string = "%s:%s" % (self.proxy_username, self.proxy_password)
                     proxy_auth = "Basic " + base64.b64encode(user_string)
