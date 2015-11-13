@@ -76,7 +76,7 @@ if __name__ == "__main__":
             print('remaining tokens:', after_tokens)
 
             assert ntokens - 4 == after_tokens
-        except pdfcrowd.Erro as why:
+        except pdfcrowd.Error as why:
             print('FAILED: {}'.format(why))
             sys.exit(1)
 
@@ -125,7 +125,7 @@ if __name__ == "__main__":
             getattr(client, method)(arg)
             client.convertFile(test_dir + '/in/simple.html', out_stream(method.lower(), False))
     except pdfcrowd.Error as why:
-        print('FAILED'.format(why))
+        print('FAILED: {}'.format(why))
         sys.exit(1)
 
     # 4 margins
