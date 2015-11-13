@@ -49,32 +49,22 @@ if __name__ == "__main__":
         fname = test_dir + '/out/py_client_%s' % name
         if use_ssl:
             fname = fname + '_ssl'
-
         return open(fname + '.pdf', 'wb')
 
     html = "<html><body>Uploaded content!</body></html>"
     client = pdfcrowd.Client(sys.argv[1], sys.argv[2])
-
     for use_ssl in [False, True]:
         client.useSSL(use_ssl)
-
         try:
             ntokens = client.numTokens()
-
-            print('Current Tokens:', ntokens)
-
             client.setFooterText("%p out of %n")
             client.convertURI('http://dl.dropboxusercontent.com/u/9346438/tests/webtopdfcom.html',
                               out_stream('uri', use_ssl))
-
             client.convertHtml(html, out_stream('content', use_ssl))
             client.convertFile(test_dir + '/in/simple.html', out_stream('upload', use_ssl))
             client.convertFile(test_dir + '/in/archive.tar.gz', out_stream('archive', use_ssl))
-
             after_tokens = client.numTokens()
-
             print('remaining tokens:', after_tokens)
-
             assert ntokens - 4 == after_tokens
         except pdfcrowd.Error as why:
             print('FAILED: {}'.format(why))
