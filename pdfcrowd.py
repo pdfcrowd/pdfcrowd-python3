@@ -286,27 +286,27 @@ class Client:
 
     def _encode_multipart_post_data(self, filename):
         boundary = '----------ThIs_Is_tHe_bOUnDary_$'
-        body = []
+        head, tail = [], []
 
         for field, value in iter(self._prepare_fields().items()):
-            body.append('--' + boundary)
-            body.append('Content-Disposition: form-data; name="%s"' % field)
-            body.append('')
-            body.append(str(value))
+            head.append('--' + boundary)
+            head.append('Content-Disposition: form-data; name="%s"' % field)
+            head.append('')
+            head.append(str(value))
 
         # filename
-        print(filename)
-        body.append('--' + boundary)
-        body.append('Content-Disposition: form-data; name="src"; filename="%s"' % filename)
+        head.append('--' + boundary)
+        head.append('Content-Disposition: form-data; name="src"; filename="%s"' % filename)
         mime_type = mimetypes.guess_type(filename)[0] or 'application/octet-stream'
-        body.append('Content-Type: ' + mime_type)
-        body.append('')
-        body.append(open(filename, 'rb').read())
+        head.append('Content-Type: ' + mime_type)
+        head.append('')
+        content = open(filename, 'rb').read()
 
         # finalize
-        body.append('--' + boundary + '--')
-        body.append('')
-        body = '\r\n'.join(map(str, body))
+        tail.append('--' + boundary + '--')
+        tail.append('')
+        body = ["\r\n".join(head).encode("utf-8"), content, "\r\n".join(tail).encode("utf-8")]
+        body = b"\r\n".join(body)
         content_type = 'multipart/form-data; boundary=%s' % boundary
 
         return body, content_type
@@ -330,14 +330,13 @@ class Client:
                 conn.putrequest('POST', API_SELECTOR_BASE + api_path)
 
             conn.putheader('content-type', content_type)
+            body = body if isinstance(body, bytes) else bytes(body, "utf-8")
             conn.putheader('content-length', str(len(body)))
             conn.endheaders()
-            conn.send(body.encode('ascii'))
+            conn.send(body)
             response = conn.getresponse()
-
             if response.status != 200:
                 raise Error(response.read(), response.status)
-
             if outstream:
                 while True:
                     data = response.read(16384)
