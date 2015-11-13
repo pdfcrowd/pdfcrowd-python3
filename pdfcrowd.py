@@ -47,7 +47,7 @@ class Error(Exception):
     """Thrown when an error occurs."""
     def __init__(self, error, http_code=None):
         self.http_code = http_code
-        self.error = error
+        self.error = error if isinstance(error, str) else str(error, "utf-8")
 
     def __str__(self):
         if self.http_code:
