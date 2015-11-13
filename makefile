@@ -1,18 +1,20 @@
+PYTHON = python3
+
 all:
 
-dist: dist/pdfcrowd-*.zip dist/pdfcrowd-*.tar.gz
+dist: dist/pdfcrowd3-*.zip dist/pdfcrowd3-*.tar.gz
 
-dist/pdfcrowd-*.tar.gz dist/pdfcrowd-*.zip: setup.py pdfcrowd.py
+dist/pdfcrowd3-*.tar.gz dist/pdfcrowd3-*.zip: setup.py pdfcrowd.py
 	grep "__version__ = \""`grep -oE "version='[0-9.]+" setup.py | sed "s/version='//"` pdfcrowd.py > /dev/null
 	rm -rf dist/* build/* python/MANIFEST
-	python setup.py clean && python setup.py sdist --formats=gztar,zip
+	$(PYTHON) setup.py clean && $(PYTHON) setup.py sdist --formats=gztar,zip
 
 test:
-	python ./tests.py $(API_USERNAME) $(API_TOKEN) $(API_HOSTNAME) $(API_HTTP_PORT) $(API_HTTPS_PORT)
+	$(PYTHON) ./tests.py $(API_USERNAME) $(API_TOKEN) $(API_HOSTNAME) $(API_HTTP_PORT) $(API_HTTPS_PORT)
 
 publish:
 	rm -rf dist/* build/* python/MANIFEST
-	python setup.py clean && python setup.py sdist upload
+	$(PYTHON) setup.py clean && $(PYTHON) setup.py sdist upload
 
 init:
 	test -d ../test_files/out || mkdir -p ../test_files/out
