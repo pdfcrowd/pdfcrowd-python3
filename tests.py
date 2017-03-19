@@ -46,7 +46,7 @@ if __name__ == "__main__":
     test_dir = 'test_files'
 
     def out_stream(name, use_ssl):
-        fname = test_dir + '/out/py_client_%s' % name
+        fname = test_dir + '/out/py3_client_%s' % name
         if use_ssl:
             fname = fname + '_ssl'
         return open(fname + '.pdf', 'wb')
